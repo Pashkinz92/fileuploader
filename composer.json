@@ -9,12 +9,9 @@
             "email": "pashkinz92@gmail.com"
         }
     ],
-    "require": {
-        "yiisoft/yii2": ">=2.0.4"
-    },
     "autoload": {
         "psr-4": {
-            "fileuploader\\": ["components\\", "controllers\\"]
+            "fileuploader\\": "components\\"
         }
     }
 }
