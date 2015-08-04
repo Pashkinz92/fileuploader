@@ -1,0 +1,39 @@
+.upload-area .img_item{ width: 100px; height: 100px; border:2px solid #fff;  position: relative; padding: 0; border-radius: 2px; margin-right: 10px; margin-bottom: 10px; }
+.upload-area .img_item.in{ padding-top: 0; }
+.upload-area .upload_gif{ width: 100%; height: 100%; position: absolute; background: rgba(0,0,0,0.7); left: 0; top: 0; z-index: 2;}
+.preload_block.load.upload_gif{ position: absolute;}
+.upload-area .status_bg{position: absolute; height: 10px; width: 100%; background: #ffffff; top: 50%; margin-top: -5px; left: 0; z-index: 2; }
+.upload-area .status{ position: absolute; height: 10px; top: 50%; left: 0; width: 0; margin-top: -5px; z-index: 3;  background: url(../img/15.gif) repeat-x; -webkit-transition: 0.3s width linear ;
+    -moz-transition: 0.3s width linear ;
+    -ms-transition: 0.3s width linear ;
+    -o-transition: 0.3s width linear ;
+    transition: 0.3s width linear ;}
+.upload-area .preview{ width: 100%; height: 100%; }
+.upload-area canvas{border-radius: 3px;}
+.upload-area .img_item img{ max-width: 100%; display: block; max-height: 100%;}
+
+.upload-area .set-fav, .upload-area .del{ position: absolute; width: 26px; height: 26px; background: #fff; cursor: pointer; opacity: 0; line-height: 26px; text-align: center; border:1px solid;}
+.upload-area .set-fav:before, .upload-area .del:before{ margin-right: 0;}
+.upload-area .set-fav{ left: 0; color:#6fd375; border-color:#6fd375;}
+.upload-area .del{ right: 0; color:#ff4c4c;border-color:#ff4c4c;}
+.upload-area .img_item:hover .set-fav, .upload-area .img_item:hover .del{ opacity: 1;}
+.upload-area .img_item.sel .set-fav{ background: #6fd375; color:#fff; opacity: 1;}
+.upload-area .img_item:hover{border-color:#F49C15;}
+.upload-area .img_item.sel{border-color:#6fd375;}
+
+.upload_gif.animate-spin .status, .upload_gif.animate-spin .status_bg, .upload_gif.load .status, .upload_gif.load .status_bg{ display: none; }
+.upload_gif.animate-spin:before{ color:#fff; font-size: 40px !important; margin:30px 0 0 0 !important;}
+.upload_gif.animate-spin{ text-align: center; vertical-align: middle;}
+
+#product-upload-area .files{ margin-top: 7px; }
+.upload-area .main-image{ width: 250px; }
+.upload-area .main-image img{ width: 240px; }
+.upload-area .main-image .img{border:1px solid #C4DFF0; display: inline-block;}
+.file-explorer{  margin-bottom: 20px;}
+.file-explorer input{ cursor: pointer; max-width: 300px;}
+.upload-area td{ vertical-align: top;}
+.upload-area .file-explorer .note{ margin-bottom: 6px; color: #999; font-size: 90%;}
+table.exp{}
+.img_caption { color: #999; font-size: 90%;}
+
+.file-explorer .err-msg{ padding: 10px 0; color:#ff4c4c;}
