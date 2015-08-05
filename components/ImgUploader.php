@@ -1,5 +1,5 @@
 <?php
-    namespace app\components;
+    namespace fileuploader;
 
     use yii\base\Exception;
     use yii\base\Widget;
