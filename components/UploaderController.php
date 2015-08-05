@@ -10,6 +10,7 @@
     use CLib;
     use yii\helpers\FileHelper;
     use yii\helpers\Url;
+    use yii\web\Response;
 
 
     define('MAX_SIZE',(1024*1024*10)); // 10mb
