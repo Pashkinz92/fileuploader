@@ -1,9 +1,12 @@
 <?php
     namespace fileuploader;
 
+    use Yii;
     use yii\base\Exception;
     use yii\base\Widget;
+    use yii\debug\models\search\Debug;
     use yii\helpers\Html;
+    use yii\web\View;
 
 class ImgUploader extends Widget
 {
@@ -95,57 +98,55 @@ class ImgUploader extends Widget
 
     public function run()
     {
-        /*
-        Yii::app()->assetManager->forceCopy = YII_DEBUG;
+        Yii::$app->assetManager->forceCopy = YII_DEBUG;
         $assets = dirname(__FILE__).'/assets';
-        $baseUrl = Yii::app()->assetManager->publish($assets, false);
+        $baseUrl = Yii::$app->assetManager->publish($assets)[1];
 
-        $cs = Yii::app()->clientScript;
-        $cs->registerCssFile($baseUrl.'/css/upload.css');
+        $view = Yii::$app->view;
+        
+        $view->registerCssFile($baseUrl.'/css/upload.css');
+        $view->registerJsFile($baseUrl.'/js/vendor/jquery.ui.widget.js', ['position'=>View::POS_END,'depends'=>'yii\web\JqueryAsset']);
+        //$view->registerJsFile($baseUrl.'/js/tmpl.min.js', ['position'=>View::POS_END,'depends'=>'yii\web\JqueryAsset']);
+        $view->registerJsFile($baseUrl.'/js/load-image.min.js', ['position'=>View::POS_END,'depends'=>'yii\web\JqueryAsset']);
+        $view->registerJsFile($baseUrl.'/js/canvas-to-blob.min.js', ['position'=>View::POS_END,'depends'=>'yii\web\JqueryAsset']);
+        $view->registerJsFile($baseUrl.'/js/jquery.fileupload.js', ['position'=>View::POS_END,'depends'=>'yii\web\JqueryAsset']);
+        $view->registerJsFile($baseUrl.'/js/jquery.fileupload-process.js', ['position'=>View::POS_END,'depends'=>'yii\web\JqueryAsset']);
+        $view->registerJsFile($baseUrl.'/js/jquery.fileupload-image.js', ['position'=>View::POS_END,'depends'=>'yii\web\JqueryAsset']);
+        $view->registerJsFile($baseUrl.'/js/jquery.fileupload-ui.js', ['position'=>View::POS_END,'depends'=>'yii\web\JqueryAsset']);
 
-
-        $cs->registerScriptFile($baseUrl.'/js/vendor/jquery.ui.widget.js', CClientScript::POS_END);
-        $cs->registerScriptFile($baseUrl.'/js/tmpl.min.js', CClientScript::POS_END);
-        $cs->registerScriptFile($baseUrl.'/js/load-image.min.js', CClientScript::POS_END);
-        $cs->registerScriptFile($baseUrl.'/js/canvas-to-blob.min.js', CClientScript::POS_END);
-        $cs->registerScriptFile($baseUrl.'/js/jquery.fileupload.js', CClientScript::POS_END);
-        $cs->registerScriptFile($baseUrl.'/js/jquery.fileupload-process.js', CClientScript::POS_END);
-        $cs->registerScriptFile($baseUrl.'/js/jquery.fileupload-image.js', CClientScript::POS_END);
-        $cs->registerScriptFile($baseUrl.'/js/jquery.fileupload-ui.js', CClientScript::POS_END);
-
-        if($this->params['type']=='product')
+        /*if($this->params['type']=='product')
         {
-            $cs->registerScriptFile($baseUrl.'/js/main.js', CClientScript::POS_END);
+            $view->registerJsFile($baseUrl.'/js/main.js', ['position'=>View::POS_END]);
             $this->plugin_config['downloadTemplateId'] = $this->params['type'].'-download';
             $this->plugin_config['uploadTemplateId'] = $this->params['type'].'-upload';
 
             $config = CJavaScript::encode($this->plugin_config);
 
-            //$cs->registerScriptFile($baseUrl.'/js/imgUploader.js', CClientScript::POS_END);
-            $cs->registerScript($this->params['type']."-upload", "$('#".$this->params['type']."-upload-area').fileupload($config);",CClientScript::POS_READY);
+            //$view->registerJsFile($baseUrl.'/js/imgUploader.js', ['position'=>View::POS_END]);
+            $view->registerScript($this->params['type']."-upload", "$('#".$this->params['type']."-upload-area').fileupload($config);",CClientScript::POS_READY);
 
             $this->render('index', $this->params);
         }
-        else if($this->params['type']=='user_logo')
+        else */if($this->params['type']=='user_logo')
         {
-            $this->plugin_config['url'] = '/fileUpload/uploadUserLogo';
+            $this->plugin_config['url'] = '/fileUpload/upload-user-logo';
             $this->plugin_config['done']='js:userFileLoad';
 
             $this->plugin_config['change']='js:changeUserFile';
 
-            $cs->registerCssFile($baseUrl.'/cropit-master/cropit.css');
-            $cs->registerScriptFile($baseUrl . '/cropit-master/jquery.cropit.min.js', CClientScript::POS_END);
-            $cs->registerScriptFile($baseUrl . '/js/user_logo.js', CClientScript::POS_END);
+            $view->registerCssFile($baseUrl.'/cropit-master/cropit.css');
+            $view->registerJsFile($baseUrl . '/cropit-master/jquery.cropit.min.js', ['position'=>View::POS_END,'depends'=>'yii\web\JqueryAsset']);
+            $view->registerJsFile($baseUrl . '/js/user_logo.js', ['position'=>View::POS_END,'depends'=>'yii\web\JqueryAsset']);
 
             $this->plugin_config['downloadTemplateId'] = $this->params['type'] . '-download';
             $this->plugin_config['uploadTemplateId']   = $this->params['type'] . '-upload';
-            $config                                    = CJavaScript::encode($this->plugin_config);
-            //$cs->registerScriptFile($baseUrl . '/js/imgUploader.js', CClientScript::POS_END);
-            $cs->registerScript($this->params['type'] . "-upload",
-                "$('#" . $this->params['type'] . "-upload-area').fileupload($config);", CClientScript::POS_READY);
+            $config                                    = json_encode($this->plugin_config);
+            //$view->registerJsFile($baseUrl . '/js/imgUploader.js', ['position'=>View::POS_END]);
+            $view->registerJs("$('#" . $this->params['type'] . "-upload-area').fileupload($config);", View::POS_READY, $this->params['type'] . "-upload");
 
-            $this->render('user_logo', $this->params);
+
+            return $this->render('user_logo', $this->params);
         }
-        */
+
     }
 }
