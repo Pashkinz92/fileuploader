@@ -4,8 +4,8 @@
     use Yii;
     use yii\base\Exception;
     use yii\base\Widget;
-    use yii\debug\models\search\Debug;
-    use yii\helpers\Html;
+    use yii\helpers\Json;
+    use yii\web\JsExpression;
     use yii\web\View;
 
 class ImgUploader extends Widget
@@ -39,7 +39,7 @@ class ImgUploader extends Widget
 
         //'finished'=>'js:function(){ $("body").trigger("file:upload"); alert(1); }',
         //'add'=>'js:fileuploadadd',
-        'progress'=>'js:function(e, data){
+        'progress'=>'function(e, data){
                             if (data.context)
                             {
                                 progress = parseInt(data.loaded / data.total * 100, 10); data.context.find(".status").css("width",  progress + "%");
@@ -49,8 +49,8 @@ class ImgUploader extends Widget
                                 }
                             }
                         }',
-        'finished'=>'js:function(){ deleteLimit(); }',
-        'change'=>'js:function(e,data){
+        'finished'=>'function(){ deleteLimit(); }',
+        'change'=>'function(e,data){
                         $(".img_item_loaded.err").remove();
                         $(".file-explorer .err-msg").html("").hide();
                         var uploadErrors = [];
@@ -102,7 +102,7 @@ class ImgUploader extends Widget
         $assets = dirname(__FILE__).'/assets';
         $baseUrl = Yii::$app->assetManager->publish($assets)[1];
 
-        $view = Yii::$app->view;
+        $view = $this->view;//Yii::$app->view;
         
         $view->registerCssFile($baseUrl.'/css/upload.css');
         $view->registerJsFile($baseUrl.'/js/vendor/jquery.ui.widget.js', ['position'=>View::POS_END,'depends'=>'yii\web\JqueryAsset']);
@@ -113,6 +113,10 @@ class ImgUploader extends Widget
         $view->registerJsFile($baseUrl.'/js/jquery.fileupload-process.js', ['position'=>View::POS_END,'depends'=>'yii\web\JqueryAsset']);
         $view->registerJsFile($baseUrl.'/js/jquery.fileupload-image.js', ['position'=>View::POS_END,'depends'=>'yii\web\JqueryAsset']);
         $view->registerJsFile($baseUrl.'/js/jquery.fileupload-ui.js', ['position'=>View::POS_END,'depends'=>'yii\web\JqueryAsset']);
+
+        $this->plugin_config['progress'] = new JsExpression($this->plugin_config['progress']);
+        $this->plugin_config['finished'] = new JsExpression($this->plugin_config['finished']);
+        $this->plugin_config['change']   = new JsExpression($this->plugin_config['change']);
 
         /*if($this->params['type']=='product')
         {
@@ -130,9 +134,9 @@ class ImgUploader extends Widget
         else */if($this->params['type']=='user_logo')
         {
             $this->plugin_config['url'] = '/fileUpload/upload-user-logo';
-            $this->plugin_config['done']='js:userFileLoad';
+            $this->plugin_config['done'] = new JsExpression('userFileLoad');
 
-            $this->plugin_config['change']='js:changeUserFile';
+            $this->plugin_config['change'] = new JsExpression('changeUserFile');
 
             $view->registerCssFile($baseUrl.'/cropit-master/cropit.css');
             $view->registerJsFile($baseUrl . '/cropit-master/jquery.cropit.min.js', ['position'=>View::POS_END,'depends'=>'yii\web\JqueryAsset']);
@@ -140,7 +144,7 @@ class ImgUploader extends Widget
 
             $this->plugin_config['downloadTemplateId'] = $this->params['type'] . '-download';
             $this->plugin_config['uploadTemplateId']   = $this->params['type'] . '-upload';
-            $config                                    = json_encode($this->plugin_config);
+            $config                                    = Json::encode($this->plugin_config, JSON_NUMERIC_CHECK|JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
             //$view->registerJsFile($baseUrl . '/js/imgUploader.js', ['position'=>View::POS_END]);
             $view->registerJs("$('#" . $this->params['type'] . "-upload-area').fileupload($config);", View::POS_READY, $this->params['type'] . "-upload");
 

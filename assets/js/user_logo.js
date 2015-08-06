@@ -57,9 +57,8 @@ jQuery(function ($) {
                 logo_offset = $imageCropper.cropit('offset');
                 logo_zoom = $imageCropper.cropit('zoom');
 
-                lib.ajax('/fileUpload/changeUserLogo',{offset:logo_offset, zoom:logo_zoom}, function(data){
+                lib.ajax('/fileUpload/change-user-logo',{offset:logo_offset, zoom:logo_zoom}, function(data){
                     if(!data['ok']) return;
-                    console.log(data['url']);
                     $('#ulogo img').attr('src',data['url']);
                     logo_img = data['url'];
                     ava_dlg.myModal('hide');

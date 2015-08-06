@@ -1,5 +1,6 @@
 <?php
     use common\models\User;
+    use yii\widgets\ActiveForm;
 
     $set = Yii::$app->user->siteSet[User::SET_LOGO];
 
@@ -18,7 +19,13 @@
             <div class="err-msg"></div>
 
             <div class="load_logo b-r-top-5">
-                <form action="." id='user-logo-form' method='POST' enctype='multipart/form-data' autocomplete='off'>
+                <?php
+                    $form = ActiveForm::begin([
+                        'id' => 'user-logo-form',
+                        'method' => 'post',
+                        'options' => ['class' => 'login-form', 'enctype'=>'multipart/form-data', 'autocomplete'=>'off'],
+                        ]);
+                ?>
 
 
                     <input type="hidden" value="<?= $type;?>" name="upload_type"/>
@@ -50,7 +57,7 @@
                         </div>
 
                     </div>
-                </form>
+                <?php ActiveForm::end(); ?>
             </div>
 
         </div><!-- /.body -->
